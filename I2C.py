@@ -5,22 +5,20 @@ import smbus
 import time
 
 address = 0x08  # Arduino I2C address
+vibration_pin = 17  # GPIO pin where the vibration sensor data is received
 
 bus = smbus.SMBus(1)  # Raspberry Pi uses SMBus 1
 
-def write_data(data):
-    bus.write_i2c_block_data(address, 0, data)
-    time.sleep(0.1)  # Allow some time for the Arduino to process
-
 def read_data():
-    data = bus.read_i2c_block_data(address, 0, 12)
-    return ''.join([chr(byte) for byte in data])
+    return bus.read_byte(address)
 
 try:
     while True:
-        write_data([0])  # Trigger the Arduino to send data
-        received_data = read_data()
-        print("Received Data: {}".format(received_data))
+        vibration_data = read_data()
+        if vibration_data == 1:
+            print("Vibration Detected")
+        else:
+            print("No Vibration")
         time.sleep(1)
 
 except KeyboardInterrupt:
