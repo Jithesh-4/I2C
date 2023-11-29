@@ -4,7 +4,7 @@
 import smbus
 import time
 
-address = 0x08  # Arduino I2C address
+address = 0x8  # Arduino I2C address
 vibration_pin = 17  # GPIO pin where the vibration sensor data is received
 
 bus = smbus.SMBus(1)  # Raspberry Pi uses SMBus 1
